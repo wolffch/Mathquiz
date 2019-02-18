@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet var pointsLabel: UILabel!
     @IBOutlet var answerField: UITextField!
     
-    
+    var totalAnswers:Int = 0
     var points:Int = 0
     
     
@@ -36,8 +36,7 @@ class ViewController: UIViewController {
     
     @IBAction func submitQuestion(_ sender: UIButton) {
         let answerAttempt = answerField.text
-        
-        print(answerAttempt)
+        totalAnswers+=1
         if answerAttempt == answers[currentQuestionIndex]{
             points+=1
         }
@@ -50,11 +49,26 @@ class ViewController: UIViewController {
             NumberOneLabel.text = number1[currentQuestionIndex]
             NumberTwoLabel.text = number2[currentQuestionIndex]
             operatorsLabel.text = operators[currentQuestionIndex]
-            pointsLabel.text = "\(points) /10"
+            pointsLabel.text = "\(points) / \(totalAnswers)"
             
         
-        
+        answerField.text = nil
     }
-    
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH"
+        let userHours = dateFormatter.string(from: date)
+        
+        let color: UIColor
+        if Int(userHours)! > 6 && Int(userHours)! < 18 {
+            color = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
+        } else {
+            color = UIColor(red: 0.25, green: 0.25, blue: 0.25, alpha: 1)
+        }
+        self.view.backgroundColor = color
+        print(userHours)
+    }
 }
